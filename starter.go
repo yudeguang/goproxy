@@ -83,7 +83,7 @@ func (*MyCertCache) Get(host string) *tls.Certificate {
 
 //启动任务请求http
 func startHttpTaskServer() {
-	http.HandleFunc("programadress", programAdress)
+	http.HandleFunc("/programadress", programAdress)
 	http.Handle("/", &TaskHttpHandler{})
 	var err = http.ListenAndServe(":9006", nil)
 	panic("启动错误:" + err.Error())
