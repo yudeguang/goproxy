@@ -57,7 +57,7 @@ func StartProxy() {
 		WriteTimeout: 60 * time.Second,
 	}
 	log.Println("启动地址 ", pConfiger.ListenAddr, " 上的HTTP代理服务...")
-	log.Println("可通过", fmt.Sprintf("http://127.0.0.1:9006%staskname?var=val", uriTaskPrefix), "验证执行任务")
+	//log.Println("可通过", fmt.Sprintf("http://127.0.0.1:9006%staskname?var=val", uriTaskPrefix), "验证执行任务")
 	go startHttpTaskServer()
 	go removeDataThead()
 	go memoryCheckThread()
@@ -83,6 +83,7 @@ func (*MyCertCache) Get(host string) *tls.Certificate {
 
 //启动任务请求http
 func startHttpTaskServer() {
+	http.HandleFunc("programadress", programAdress)
 	http.Handle("/", &TaskHttpHandler{})
 	var err = http.ListenAndServe(":9006", nil)
 	panic("启动错误:" + err.Error())
